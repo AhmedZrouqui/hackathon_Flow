@@ -4,6 +4,12 @@ import TableActions from '@/components/TableActions'
 
 const columnHelper = createColumnHelper<IPlayer>()
 
+const formatSalary = (salary: number) => {
+    if (salary < 1000) return Math.trunc(salary)
+    if (salary < 100000) return Math.trunc(salary / 1000) + 'K'
+    return Math.trunc(salary / 1000000) + 'M'
+}
+
 export const cols = [
     columnHelper.accessor('firstname', { header: '', cell: () => {} }),
     columnHelper.accessor('lastname', { header: '', cell: () => {} }),
@@ -29,7 +35,7 @@ export const cols = [
         cell: (info) => (
             <p>
                 {' '}
-                {info.getValue()} {info.row.getValue('devise')}{' '}
+                {formatSalary(info.getValue())} {info.row.getValue('devise')}{' '}
             </p>
         ),
     }),
