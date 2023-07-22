@@ -83,7 +83,7 @@ export default function AppProvider({ children }: React.PropsWithChildren) {
     const fetchPlayerData = useCallback(
         async (id: number) => {
             const response = await fetch(
-                'http://localhost:3000/api/players/' + id
+                'http://127.0.0.1:3000/api/players/' + id
             )
             if (response.ok) {
                 const player = await response.json()
@@ -100,7 +100,7 @@ export default function AppProvider({ children }: React.PropsWithChildren) {
 
     const createPlayer = useCallback(
         async (payload: IPlayer) => {
-            const response = await fetch('http://localhost:3000/api/players', {
+            const response = await fetch('http://127.0.0.1:3000/api/players', {
                 method: 'POST',
                 body: JSON.stringify(payload),
             })
@@ -132,7 +132,7 @@ export default function AppProvider({ children }: React.PropsWithChildren) {
     const updatePlayer = useCallback(
         async (id: number, payload: IPlayer) => {
             const response = await fetch(
-                'http://localhost:3000/api/players/' + id,
+                'http://127.0.0.1:3000/api/players/' + id,
                 {
                     method: 'PATCH',
                     body: JSON.stringify(payload),
@@ -163,7 +163,7 @@ export default function AppProvider({ children }: React.PropsWithChildren) {
 
     const removePlayer = async (id: number) => {
         const response = await fetch(
-            'http://localhost:3000/api/players/' + id,
+            'http://127.0.0.1:3000/api/players/' + id,
             {
                 method: 'DELETE',
             }

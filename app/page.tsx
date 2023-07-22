@@ -3,7 +3,7 @@ import Table from '@/components/Table'
 import { IPlayer } from '@/lib/types'
 
 const getData = async () => {
-    const players = await fetch('http://localhost:3000/api/players', {
+    const players = await fetch('http://127.0.0.1:3000/api/players', {
         cache: 'no-store',
     })
     if (players.ok) {
