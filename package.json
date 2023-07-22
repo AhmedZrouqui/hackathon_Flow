@@ -7,11 +7,11 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "seed": "node lib/prisma/seed.js",
+        "seed": "node lib/prisma/seed.mts",
         "postinstall": "prisma generate"
     },
     "prisma": {
-        "seed": "node lib/prisma/seed.js"
+        "seed": "node lib/prisma/seed.mts"
     },
     "dependencies": {
         "@hookform/resolvers": "^3.1.1",
