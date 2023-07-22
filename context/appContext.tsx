@@ -3,20 +3,42 @@ import { createContext, useCallback, useContext, useState } from 'react'
 
 interface IContext {
     modalIsOpen: boolean
+    players: IPlayer[]
     modalType: string
     openModal: (t: string) => void
     closeModal: () => void
     fetchPlayerData: (id: number) => void
     formInitialValues: IPlayer | null
+    removePlayer: (id: number) => void
+    createPlayer: (payload: IPlayer) => void
+    updatePlayer: (id: number, payload: IPlayer) => void
+    toast: {
+        open: boolean
+        success: boolean
+        message: string
+    }
+    closeToast: () => void
+    initPlayers: (v: IPlayer[]) => void
 }
 
 const initialState: IContext = {
     modalIsOpen: false,
+    players: [],
     modalType: '',
     openModal: () => {},
     closeModal: () => {},
     fetchPlayerData: () => {},
     formInitialValues: null,
+    removePlayer: () => {},
+    createPlayer: () => {},
+    updatePlayer: () => {},
+    toast: {
+        open: false,
+        success: false,
+        message: '',
+    },
+    closeToast: () => {},
+    initPlayers: () => {},
 }
 
 const AppContext = createContext<IContext | undefined>(undefined)
@@ -33,7 +55,17 @@ export default function AppProvider({ children }: React.PropsWithChildren) {
         initialState.formInitialValues
     )
 
-    const [loading, setLoading] = useState<boolean>(false)
+    const [toast, setToast] = useState({
+        open: false,
+        success: false,
+        message: '',
+    })
+
+    const [players, setPlayers] = useState<IPlayer[]>([])
+
+    const initPlayers = useCallback((data: IPlayer[]) => {
+        setPlayers(data)
+    }, [])
 
     const openModal = useCallback((t: string) => {
         setModalType(t)
@@ -45,18 +77,105 @@ export default function AppProvider({ children }: React.PropsWithChildren) {
         setFormInitialValues(null)
     }, [])
 
-    const fetchPlayerData = async (id: number) => {
-        const response = await fetch('http://localhost:3000/api/players/' + id)
+    const fetchPlayerData = useCallback(
+        async (id: number) => {
+            const response = await fetch(
+                'http://localhost:3000/api/players/' + id
+            )
+            if (response.ok) {
+                const player = await response.json()
+                setFormInitialValues(player as IPlayer)
+                openModal('UPDATE')
+
+                return
+            }
+
+            throw new Error('An error has occurred')
+        },
+        [openModal]
+    )
+
+    const createPlayer = useCallback(async (payload: IPlayer) => {
+        const response = await fetch('http://localhost:3000/api/players', {
+            method: 'POST',
+            body: JSON.stringify(payload),
+        })
+
+        if (response.ok) {
+            const player = await response.json()
+            setPlayers((prev) => [...prev, player])
+            setToast({
+                open: true,
+                success: true,
+                message: 'Player has been created',
+            })
+        }
+
+        setToast({
+            open: true,
+            success: false,
+            message: 'An error occured while creating player.',
+        })
+    }, [])
+
+    const updatePlayer = useCallback(async (id: number, payload: IPlayer) => {
+        const response = await fetch(
+            'http://localhost:3000/api/players/' + id,
+            {
+                method: 'PATCH',
+                body: JSON.stringify(payload),
+            }
+        )
+
+        if (response.ok) {
+            const _player = await response.json()
+            setPlayers((prev) => [
+                ...prev.map((player, i) =>
+                    player.id !== id ? player : _player
+                ),
+            ])
+            setToast({
+                open: true,
+                success: true,
+                message: 'Player has been created',
+            })
+        }
+
+        setToast({
+            open: true,
+            success: false,
+            message: 'An error occured while creating player.',
+        })
+    }, [])
+
+    const removePlayer = async (id: number) => {
+        const response = await fetch(
+            'http://localhost:3000/api/players/' + id,
+            {
+                method: 'DELETE',
+            }
+        )
         if (response.ok) {
             const player = await response.json()
             setFormInitialValues(player as IPlayer)
-            openModal('UPDATE')
+            setToast({
+                open: true,
+                success: true,
+                message: 'Player has been deleted',
+            })
 
             return
         }
-
-        throw new Error('An error has occurred')
+        setToast({
+            open: true,
+            success: false,
+            message: 'Error, please try again!',
+        })
     }
+
+    const closeToast = useCallback(() => {
+        setToast((prev) => ({ ...prev, open: false }))
+    }, [])
 
     return (
         <AppContext.Provider
@@ -67,6 +186,13 @@ export default function AppProvider({ children }: React.PropsWithChildren) {
                 closeModal,
                 fetchPlayerData,
                 formInitialValues,
+                removePlayer,
+                createPlayer,
+                players,
+                updatePlayer,
+                toast,
+                closeToast,
+                initPlayers,
             }}
         >
             {children}

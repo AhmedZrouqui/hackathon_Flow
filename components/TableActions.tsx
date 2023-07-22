@@ -17,7 +17,11 @@ function TableActions({ playerId }: IActions) {
             >
                 <BiSolidPencil />
             </span>
-            <span id="remove" className="cursor-pointer text-gray-400">
+            <span
+                id="remove"
+                className="cursor-pointer text-gray-400"
+                onClick={() => ctx?.removePlayer(playerId)}
+            >
                 <BiTrash />
             </span>
         </div>

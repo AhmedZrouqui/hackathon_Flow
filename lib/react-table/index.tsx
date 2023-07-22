@@ -15,7 +15,6 @@ export const cols = [
     columnHelper.display({
         header: 'Full Name',
         cell: (info) => {
-            console.log('info => ', info)
             return (
                 <p>
                     {info.row.getValue('firstname')}{' '}

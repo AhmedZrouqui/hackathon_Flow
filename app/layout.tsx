@@ -4,6 +4,7 @@ import AppProvider from '@/context/appContext'
 import './globals.css'
 import { Inter } from 'next/font/google'
 import Modal from '@/components/modal'
+import Header from '@/components/Header'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,7 +18,9 @@ export default function RootLayout({
             <body className={inter.className + ' min-h-screen'}>
                 <AppProvider>
                     <>
-                        {children}
+                        <Header />
+                        <div className="p-4">{children}</div>
+
                         <Modal />
                     </>
                 </AppProvider>

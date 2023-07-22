@@ -4,13 +4,13 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAppContext } from '@/context/appContext'
 import { IPlayer } from '@/lib/types'
-import { updatePlayer } from '@/app/actions'
 
 const schema = z.object({
     firstname: z.string().min(1, { message: 'Required' }),
     lastname: z.string().min(1, { message: 'Required' }),
     salary: z.string().min(1, { message: 'Required' }),
     devise: z.string().min(1, { message: 'Required' }),
+    goal: z.string().min(0, { message: 'Required' }),
 })
 
 function Form() {
@@ -25,27 +25,32 @@ function Form() {
 
     const ctx = useAppContext()
 
-    const [formValues, setFormValues] = useState({
-        firstname: '',
-        lastname: '',
-        salary: 0,
-        devise: '',
-        goal: 0,
-        pictureUrl: '',
-    })
-
-    useEffect(() => {
-        if (ctx?.formInitialValues) setFormValues(ctx?.formInitialValues)
-    }, [ctx?.formInitialValues])
+    const [formValues, setFormValues] = useState(
+        () =>
+            ctx?.formInitialValues ?? {
+                firstname: '',
+                lastname: '',
+                salary: 0,
+                devise: '',
+                goal: 0,
+                pictureUrl: '',
+            }
+    )
 
     const formRef = useRef(null)
 
     const submit = async (data: FieldValues) => {
         data.pictureUrl = ''
-        await updatePlayer(
-            ctx?.formInitialValues?.id as number,
-            data as IPlayer
-        )
+        data.salary = parseInt(data.salary)
+        data.goal = parseInt(data.goal)
+        if (ctx?.modalType === 'CREATE') {
+            ctx?.createPlayer(data as IPlayer)
+        } else {
+            ctx?.updatePlayer(
+                ctx?.formInitialValues?.id as number,
+                data as IPlayer
+            )
+        }
     }
 
     return (
@@ -79,14 +84,16 @@ function Form() {
                     {...register('salary', { required: true })}
                     placeholder="Type salary"
                     className="block border px-3 py-2 border-gray-300 rounded-md text-sm mb-2"
-                    value={formValues.salary}
+                    type="number"
+                    value={Number(formValues.salary)}
                     onChange={(e) =>
                         setFormValues((prev) => ({
                             ...prev,
-                            salary: Number(e.target.value),
+                            salary: parseInt(e.target.value),
                         }))
                     }
                 />
+                {errors.salary && <p>{typeof formValues.salary}</p>}
                 <input
                     {...register('devise', { required: true })}
                     placeholder="Type devise"
@@ -100,14 +107,14 @@ function Form() {
                     }
                 />
                 <input
-                    {...register('goals', { required: true })}
+                    {...register('goal', { required: true })}
                     placeholder="Type devise"
                     className="block border px-3 py-2 border-gray-300 rounded-md text-sm mb-2"
-                    value={formValues.goal}
+                    value={Number(formValues.goal)}
                     onChange={(e) =>
                         setFormValues((prev) => ({
                             ...prev,
-                            goal: Number(e.target.value),
+                            goal: parseInt(e.target.value),
                         }))
                     }
                 />
