@@ -1,5 +1,6 @@
 import { IPlayer } from '@/lib/types'
 import { createContext, useCallback, useContext, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 interface IContext {
     modalIsOpen: boolean
@@ -46,6 +47,8 @@ const AppContext = createContext<IContext | undefined>(undefined)
 export const useAppContext = () => useContext(AppContext)
 
 export default function AppProvider({ children }: React.PropsWithChildren) {
+    const router = useRouter()
+
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(
         initialState.modalIsOpen
     )
@@ -95,58 +98,68 @@ export default function AppProvider({ children }: React.PropsWithChildren) {
         [openModal]
     )
 
-    const createPlayer = useCallback(async (payload: IPlayer) => {
-        const response = await fetch('http://localhost:3000/api/players', {
-            method: 'POST',
-            body: JSON.stringify(payload),
-        })
-
-        if (response.ok) {
-            const player = await response.json()
-            setPlayers((prev) => [...prev, player])
-            setToast({
-                open: true,
-                success: true,
-                message: 'Player has been created',
-            })
-        }
-
-        setToast({
-            open: true,
-            success: false,
-            message: 'An error occured while creating player.',
-        })
-    }, [])
-
-    const updatePlayer = useCallback(async (id: number, payload: IPlayer) => {
-        const response = await fetch(
-            'http://localhost:3000/api/players/' + id,
-            {
-                method: 'PATCH',
+    const createPlayer = useCallback(
+        async (payload: IPlayer) => {
+            const response = await fetch('http://localhost:3000/api/players', {
+                method: 'POST',
                 body: JSON.stringify(payload),
-            }
-        )
+            })
 
-        if (response.ok) {
-            const _player = await response.json()
-            setPlayers((prev) => [
-                ...prev.map((player, i) =>
-                    player.id !== id ? player : _player
-                ),
-            ])
+            if (response.ok) {
+                const player = await response.json()
+                //setPlayers((prev) => [...prev, player])
+                router.refresh()
+                setToast({
+                    open: true,
+                    success: true,
+                    message: 'Player has been created',
+                })
+
+                closeModal()
+
+                return
+            }
+
             setToast({
                 open: true,
-                success: true,
-                message: 'Player has been created',
+                success: false,
+                message: 'An error occured while creating player.',
             })
-        }
+        },
+        [closeModal]
+    )
 
-        setToast({
-            open: true,
-            success: false,
-            message: 'An error occured while creating player.',
-        })
-    }, [])
+    const updatePlayer = useCallback(
+        async (id: number, payload: IPlayer) => {
+            const response = await fetch(
+                'http://localhost:3000/api/players/' + id,
+                {
+                    method: 'PATCH',
+                    body: JSON.stringify(payload),
+                }
+            )
+
+            if (response.ok) {
+                const _player = await response.json()
+                router.refresh()
+                setToast({
+                    open: true,
+                    success: true,
+                    message: 'Player has been Updated',
+                })
+
+                closeModal()
+
+                return
+            }
+            setToast({
+                open: true,
+                success: false,
+                message: 'An error occured while updating player.',
+            })
+        },
+        [closeModal]
+    )
 
     const removePlayer = async (id: number) => {
         const response = await fetch(
@@ -158,6 +171,7 @@ export default function AppProvider({ children }: React.PropsWithChildren) {
         if (response.ok) {
             const player = await response.json()
             setFormInitialValues(player as IPlayer)
+            router.refresh()
             setToast({
                 open: true,
                 success: true,

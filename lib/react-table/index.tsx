@@ -25,12 +25,17 @@ export const cols = [
         footer: (props) => props.column.id,
     }),
     columnHelper.accessor('salary', {
+        header: 'Salary',
         cell: (info) => (
             <p>
                 {' '}
                 {info.getValue()} {info.row.getValue('devise')}{' '}
             </p>
         ),
+    }),
+    columnHelper.accessor('goal', {
+        header: 'Goals',
+        cell: (info) => <p> {info.getValue()}</p>,
     }),
     columnHelper.display({
         header: 'Actions',

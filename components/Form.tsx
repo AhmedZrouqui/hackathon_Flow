@@ -58,8 +58,8 @@ function Form() {
             <form ref={formRef} onSubmit={handleSubmit(submit)}>
                 <input
                     {...register('firstname', { required: true })}
-                    placeholder="Type firstname"
-                    className="block border px-3 py-2 border-gray-300 rounded-md text-sm mb-2"
+                    placeholder="Enter first name"
+                    className="block border px-3 py-2 border-gray-300 rounded-md text-sm mb-2 w-full"
                     value={formValues.firstname}
                     onChange={(e) =>
                         setFormValues((prev) => ({
@@ -70,8 +70,8 @@ function Form() {
                 />
                 <input
                     {...register('lastname', { required: true })}
-                    placeholder="Type lastname"
-                    className="block border px-3 py-2 border-gray-300 rounded-md text-sm mb-2"
+                    placeholder="Enter last name"
+                    className="block border px-3 py-2 border-gray-300 rounded-md text-sm mb-2 w-full"
                     value={formValues.lastname}
                     onChange={(e) =>
                         setFormValues((prev) => ({
@@ -82,8 +82,8 @@ function Form() {
                 />
                 <input
                     {...register('salary', { required: true })}
-                    placeholder="Type salary"
-                    className="block border px-3 py-2 border-gray-300 rounded-md text-sm mb-2"
+                    placeholder="Enter salary"
+                    className="block border px-3 py-2 border-gray-300 rounded-md text-sm mb-2 w-full"
                     type="number"
                     value={Number(formValues.salary)}
                     onChange={(e) =>
@@ -96,8 +96,8 @@ function Form() {
                 {errors.salary && <p>{typeof formValues.salary}</p>}
                 <input
                     {...register('devise', { required: true })}
-                    placeholder="Type devise"
-                    className="block border px-3 py-2 border-gray-300 rounded-md text-sm mb-2"
+                    placeholder="Enter devise"
+                    className="block border px-3 py-2 border-gray-300 rounded-md text-sm mb-2 w-full"
                     value={formValues.devise}
                     onChange={(e) =>
                         setFormValues((prev) => ({
@@ -108,8 +108,8 @@ function Form() {
                 />
                 <input
                     {...register('goal', { required: true })}
-                    placeholder="Type devise"
-                    className="block border px-3 py-2 border-gray-300 rounded-md text-sm mb-2"
+                    placeholder="Enter devise"
+                    className="block border px-3 py-2 border-gray-300 rounded-md text-sm mb-2 w-full"
                     value={Number(formValues.goal)}
                     onChange={(e) =>
                         setFormValues((prev) => ({
@@ -118,7 +118,9 @@ function Form() {
                         }))
                     }
                 />
-                <button>Save</button>
+                <button className="px-4 py-2 bg-cyan-600 rounded text-white">
+                    Save
+                </button>
             </form>
         </div>
     )
