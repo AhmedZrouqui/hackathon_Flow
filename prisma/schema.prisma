@@ -10,3 +10,13 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model Player {
+  id         Int    @id @default(autoincrement())
+  firstname  String
+  lastname   String
+  salary     Int
+  goal       Int
+  pictureUrl String @db.Text
+  devise     String
+}

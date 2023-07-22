@@ -6,10 +6,16 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "seed": "node lib/prisma/seed.js"
+    },
+    "prisma": {
+        "seed": "node lib/prisma/seed.js"
     },
     "dependencies": {
+        "@hookform/resolvers": "^3.1.1",
         "@prisma/client": "^5.0.0",
+        "@tanstack/react-table": "^8.9.3",
         "@types/node": "20.4.2",
         "@types/react": "18.2.15",
         "@types/react-dom": "18.2.7",
@@ -21,6 +27,7 @@
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-hook-form": "^7.45.2",
+        "react-icons": "^4.10.1",
         "tailwindcss": "3.3.3",
         "typescript": "5.1.6",
         "zod": "^3.21.4"
