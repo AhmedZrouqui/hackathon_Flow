@@ -7,6 +7,8 @@ const columnHelper = createColumnHelper<PlayerType>()
 function reformulateSalary(salary: number): string {
     const suffixes = ['', 'k', 'M', 'B', 'T', 'Q']
 
+    if (salary === 0) return salary.toString()
+
     const getSuffix = (num: number): string => {
         const magnitude = Math.floor(Math.log10(num) / 3)
         return suffixes[magnitude]
