@@ -9,8 +9,10 @@ async function _getPlayersCount(): Promise<number> {
 }
 
 const getData = async (page: number) => {
-    const url = new URL(process.env.BASE_URL as string)
-    const res = await fetch(url + 'api/players?page=' + page, {
+    const url = new URL(
+        (process.env.BASE_URL as string) + '/api/players?page=' + page
+    )
+    const res = await fetch(url.href, {
         method: 'GET',
         next: {
             tags: ['players'],
