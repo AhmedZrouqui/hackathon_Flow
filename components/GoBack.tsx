@@ -7,7 +7,7 @@ function GoBack() {
     const router = useRouter()
     return (
         <div
-            onClick={() => router.back()}
+            onClick={() => router.push('/')}
             className="mb-10 underline cursor-pointer text-lg font-medium"
         >
             {'<'} Revenir

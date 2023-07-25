@@ -9,9 +9,21 @@ async function _getPlayersCount(): Promise<number> {
 }
 
 const getData = async (page: number) => {
-    const res = await getPlayers(page)
+    const url = new URL(process.env.BASE_URL as string)
+    const res = await fetch(url + 'api/players?page=' + page, {
+        method: 'GET',
+        next: {
+            tags: ['players'],
+        },
+    })
 
-    return res
+    if (res.ok) {
+        const players = await res.json()
+
+        return players
+    }
+
+    return []
 }
 
 export default async function Page({
@@ -23,7 +35,6 @@ export default async function Page({
     const data = await getData(page)
     const playersCount = await _getPlayersCount()
 
-    if (data.status === 500) return <h2>Internal Error, please try later.</h2>
     return (
         <main className="w-full min-h-screen">
             <Table
