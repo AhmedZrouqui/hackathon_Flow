@@ -1,23 +1,36 @@
-import List from '@/components/List'
 import Table from '@/components/Table'
-import { IPlayer } from '@/lib/types'
+import { getPlayers, getPlayersCount } from './actions'
+import { PlayerType } from '@/lib/validation'
 
-const getData = async () => {
-    const players = await fetch('http://127.0.0.1:3000/api/players', {
-        cache: 'no-store',
-    })
-    if (players.ok) {
-        const data = await players.json()
-        return data
-    }
-    return []
+async function _getPlayersCount(): Promise<number> {
+    const res = await getPlayersCount()
+
+    return res
 }
 
-export default async function Home() {
-    const data = await getData()
+const getData = async (page: number) => {
+    const res = await getPlayers(page)
+
+    return res
+}
+
+export default async function Page({
+    searchParams,
+}: {
+    searchParams: { page: number }
+}) {
+    const page = searchParams.page ?? 1
+    const data = await getData(page)
+    const playersCount = await _getPlayersCount()
+
+    if (data.status === 500) return <h2>Internal Error, please try later.</h2>
     return (
         <main className="w-full min-h-screen">
-            <Table data={data as IPlayer[]} />
+            <Table
+                currenPage={page}
+                data={data.data as PlayerType[]}
+                playersCount={playersCount}
+            />
         </main>
     )
 }

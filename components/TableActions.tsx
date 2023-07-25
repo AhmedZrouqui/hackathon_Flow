@@ -1,4 +1,7 @@
-import { useAppContext } from '@/context/appContext'
+'use client'
+
+import { removePlayer } from '@/app/actions'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { BiSolidPencil, BiTrash } from 'react-icons/bi'
 
@@ -7,20 +10,20 @@ interface IActions {
 }
 
 function TableActions({ playerId }: IActions) {
-    const ctx = useAppContext()
+    const router = useRouter()
     return (
         <div className="flex gap-2 w-full h-full justify-center">
             <span
                 id="update"
                 className="cursor-pointer text-gray-400"
-                onClick={() => ctx?.fetchPlayerData(playerId)}
+                onClick={() => router.push('/edit/' + playerId)}
             >
                 <BiSolidPencil />
             </span>
             <span
                 id="remove"
                 className="cursor-pointer text-gray-400"
-                onClick={() => ctx?.removePlayer(playerId)}
+                onClick={() => removePlayer(playerId)}
             >
                 <BiTrash />
             </span>

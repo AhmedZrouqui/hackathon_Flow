@@ -1,27 +1,46 @@
 'use client'
 
 import { cols } from '@/lib/react-table'
-import { IPlayer } from '@/lib/types'
+import { PlayerType } from '@/lib/validation'
 import {
     flexRender,
     getCoreRowModel,
     useReactTable,
+    getPaginationRowModel,
 } from '@tanstack/react-table'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 interface ITable {
-    data: IPlayer[]
+    data: PlayerType[]
+    playersCount: number
+    currenPage: number
 }
 
-function Table({ data }: ITable) {
+function Table({ data, playersCount, currenPage }: ITable) {
     const table = useReactTable({
         data,
         columns: cols,
         getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        initialState: {
+            pagination: {
+                pageIndex: 0,
+            },
+        },
     })
+
+    const router = useRouter()
+
+    const goToPage = (page: number) => {
+        router.push('/?page=' + page)
+    }
+
+    console.log(currenPage)
+
     return (
-        <div className="w-full flex flex-col items-center justify-center">
-            <table className="rounded-lg overflow-hidden min-w-[800px]">
+        <div className="w-full">
+            <table className="rounded-lg overflow-hidden min-w-full">
                 <thead className=" bg-gray-300">
                     {table.getHeaderGroups().map((headerGroup) => (
                         <tr key={headerGroup.id}>
@@ -53,6 +72,23 @@ function Table({ data }: ITable) {
                     ))}
                 </tbody>
             </table>
+            <div className="flex gap-3 mt-10 justify-center">
+                {[...new Array(Math.ceil(playersCount / 10))].map(
+                    (_: any, i: number) => (
+                        <button
+                            key={i}
+                            onClick={() => goToPage(i + 1)}
+                            className={`border px-3 py-1 rounded ${
+                                i + 1 === Number(currenPage)
+                                    ? 'bg-blue-400 border-blue-400 text-white'
+                                    : ''
+                            }`}
+                        >
+                            {i + 1}
+                        </button>
+                    )
+                )}
+            </div>
         </div>
     )
 }

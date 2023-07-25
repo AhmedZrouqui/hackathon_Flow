@@ -1,13 +1,25 @@
 import { createColumnHelper } from '@tanstack/react-table'
-import { IPlayer } from '../types'
 import TableActions from '@/components/TableActions'
+import { PlayerType } from '../validation'
 
-const columnHelper = createColumnHelper<IPlayer>()
+const columnHelper = createColumnHelper<PlayerType>()
 
-const formatSalary = (salary: number) => {
-    if (salary < 1000) return Math.trunc(salary)
-    if (salary < 100000) return Math.trunc(salary / 1000) + 'K'
-    return Math.trunc(salary / 1000000) + 'M'
+function reformulateSalary(salary: number): string {
+    const suffixes = ['', 'k', 'M', 'B', 'T', 'Q']
+
+    const getSuffix = (num: number): string => {
+        const magnitude = Math.floor(Math.log10(num) / 3)
+        return suffixes[magnitude]
+    }
+
+    const formatNumber = (num: number, suffix: string): string => {
+        const divisor = Math.pow(10, Math.floor(Math.log10(num) / 3) * 3)
+        const formatted = (num / divisor).toFixed(2)
+        return formatted + suffix
+    }
+
+    const suffix = getSuffix(salary)
+    return formatNumber(salary, suffix)
 }
 
 export const cols = [
@@ -34,8 +46,8 @@ export const cols = [
         header: 'Salary',
         cell: (info) => (
             <p>
-                {' '}
-                {formatSalary(info.getValue())} {info.row.getValue('devise')}{' '}
+                {info.row.getValue('devise')}{' '}
+                {reformulateSalary(info.getValue())}
             </p>
         ),
     }),

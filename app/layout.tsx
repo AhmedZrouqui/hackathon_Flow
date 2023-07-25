@@ -3,7 +3,6 @@
 import AppProvider from '@/context/appContext'
 import './globals.css'
 import { Inter } from 'next/font/google'
-import Modal from '@/components/modal'
 import Header from '@/components/Header'
 import Toast from '@/components/Toast'
 
@@ -20,9 +19,7 @@ export default function RootLayout({
                 <AppProvider>
                     <>
                         <Header />
-                        <div className="p-4">{children}</div>
-
-                        <Modal />
+                        <div className="max-w-7xl m-auto pt-16">{children}</div>
                         <Toast />
                     </>
                 </AppProvider>
