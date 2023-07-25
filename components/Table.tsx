@@ -36,8 +36,6 @@ function Table({ data, playersCount, currenPage }: ITable) {
         router.push('/?page=' + page)
     }
 
-    console.log(currenPage)
-
     return (
         <div className="w-full">
             <table className="rounded-lg overflow-hidden min-w-full">

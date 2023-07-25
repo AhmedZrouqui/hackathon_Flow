@@ -7,6 +7,7 @@ import { FormType } from '@/lib/types'
 import { PlayerType, formSchema } from '@/lib/validation'
 import { createPlayer, updatePlayer } from '@/app/actions'
 import { useAppContext } from '@/context/appContext'
+import { revalidatePath } from 'next/cache'
 
 interface IForm {
     initialData?: PlayerType
@@ -48,6 +49,8 @@ function Form({ initialData, type, playerId }: IForm) {
         } else {
             res = await createPlayer(typedData)
         }
+
+        revalidatePath('/')
 
         ctx?.openToast({
             open: true,
