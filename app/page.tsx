@@ -1,5 +1,5 @@
 import Table from '@/components/Table'
-import { getPlayers, getPlayersCount } from './actions'
+import { getPlayersCount } from './actions'
 import { PlayerType } from '@/lib/validation'
 
 async function _getPlayersCount(): Promise<number> {

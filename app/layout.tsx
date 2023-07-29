@@ -1,5 +1,3 @@
-'use client'
-
 import AppProvider from '@/context/appContext'
 import './globals.css'
 import { Inter } from 'next/font/google'

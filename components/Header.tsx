@@ -1,9 +1,7 @@
-import { useAppContext } from '@/context/appContext'
 import Link from 'next/link'
 import React from 'react'
 
 function Header() {
-    const ctx = useAppContext()
     return (
         <div className="w-full bg-slate-300">
             <div
