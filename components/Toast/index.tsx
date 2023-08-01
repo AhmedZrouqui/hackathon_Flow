@@ -1,6 +1,7 @@
 'use client'
 
 import { useAppContext } from '@/context/appContext'
+import classNames from 'classnames'
 import React, { useEffect } from 'react'
 
 function Toast() {
@@ -17,9 +18,12 @@ function Toast() {
     if (!ctx?.toast.open) return null
     return (
         <div
-            className={`${
-                ctx?.toast.success ? ' bg-blue-600' : 'bg-red-700'
-            } text-white fixed bottom-[20px] left-1/2 translate-x-[-50%] py-4 px-2 shadow-md rounded-lg`}
+            className={classNames(
+                'text-white fixed bottom-[20px] left-1/2 translate-x-[-50%] py-4 px-2 shadow-md rounded-lg bg-red-700',
+                {
+                    '!bg-blue-600': ctx?.toast.success,
+                }
+            )}
         >
             {ctx?.toast.message}
         </div>

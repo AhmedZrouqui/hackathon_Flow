@@ -9,6 +9,7 @@ import {
 } from '@tanstack/react-table'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import classNames from 'classnames'
 
 interface ITable {
     data: PlayerType[]
@@ -69,11 +70,13 @@ function Table({ data, playersCount, currenPage }: ITable) {
                         <div
                             key={i}
                             onClick={() => goToPage(i + 1)}
-                            className={`border px-4 py-2 rounded cursor-pointer ${
-                                i + 1 === Number(currenPage)
-                                    ? 'bg-blue-400 border-blue-400 text-white'
-                                    : ''
-                            }`}
+                            className={classNames(
+                                'border px-4 py-2 rounded cursor-pointer',
+                                {
+                                    'bg-blue-400 border-blue-400 text-white':
+                                        i + 1 === Number(currenPage),
+                                }
+                            )}
                         >
                             {i + 1}
                         </div>

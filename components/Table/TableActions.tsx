@@ -15,14 +15,14 @@ function TableActions({ playerId }: IActions) {
         <div className="flex gap-2 w-full h-full justify-center">
             <span
                 id="update"
-                className="cursor-pointer text-gray-400"
+                className="cursor-pointer text-gray-400 hover:text-cyan-600"
                 onClick={() => router.push(`/edit/${playerId}`)}
             >
                 <BiSolidPencil />
             </span>
             <span
                 id="remove"
-                className="cursor-pointer text-gray-400"
+                className="cursor-pointer text-gray-400 hover:text-cyan-600"
                 onClick={() => removePlayer(playerId)}
             >
                 <BiTrash />
