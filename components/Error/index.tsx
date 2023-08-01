@@ -5,19 +5,12 @@ import Button from '../Button'
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
     useEffect(() => {
-        // Log the error to an error reporting service
-        console.error(error)
+        console.error('Error occured => ', error)
     }, [error])
     return (
         <div>
             <h2>Something went wrong!</h2>
-            <Button
-                onClick={
-                    // Attempt to recover by trying to re-render the segment
-                    () => reset()
-                }
-                errorButton
-            >
+            <Button onClick={() => reset()} errorButton>
                 Try again
             </Button>
         </div>
