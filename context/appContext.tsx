@@ -2,14 +2,16 @@
 
 import { createContext, useCallback, useContext, useState } from 'react'
 
+type ToastType = {
+    open: boolean
+    success: boolean
+    message: string
+}
+
 interface IContext {
-    toast: {
-        open: boolean
-        success: boolean
-        message: string
-    }
+    toast: ToastType
     closeToast: () => void
-    openToast: (obj: any) => void
+    openToast: (obj: ToastType) => void
 }
 
 const initialState: IContext = {
@@ -27,9 +29,9 @@ const AppContext = createContext<IContext | undefined>(undefined)
 export const useAppContext = () => useContext(AppContext)
 
 export default function AppProvider({ children }: React.PropsWithChildren) {
-    const [toast, setToast] = useState(initialState.toast)
+    const [toast, setToast] = useState<ToastType>(initialState.toast)
 
-    const openToast = useCallback((obj: typeof toast) => {
+    const openToast = useCallback((obj: ToastType) => {
         setToast(obj)
     }, [])
 

@@ -16,7 +16,7 @@ function TableActions({ playerId }: IActions) {
             <span
                 id="update"
                 className="cursor-pointer text-gray-400"
-                onClick={() => router.push('/edit/' + playerId)}
+                onClick={() => router.push(`/edit/${playerId}`)}
             >
                 <BiSolidPencil />
             </span>

@@ -1,5 +1,4 @@
 import * as z from 'zod'
-import { URLPattern } from '../utils'
 
 export const formSchema = z.object({
     id: z.number().optional(),
@@ -29,6 +28,7 @@ export const formSchema = z.object({
         }),
     devise: z
         .string({ required_error: 'La devise est requise.' })
+        .min(1, 'La devise doit comporter au moins 1 caractères.')
         .max(3, 'La devise ne peut pas comporter plus de 3 caractères.'),
     goal: z
         .number({ invalid_type_error: 'But doit être un nombre' })
@@ -36,11 +36,8 @@ export const formSchema = z.object({
             message: 'Nombre de but doit être positif (supérieur ou égal à 0).',
         }),
     pictureUrl: z
-        .string()
-        .refine(
-            (value: string) => URLPattern.test(value),
-            'Enter a valid URL.'
-        ),
+        .string({ required_error: 'Photo de profile requise.' })
+        .url('Enter a valid URL.'),
 })
 
 export type PlayerType = z.infer<typeof formSchema>

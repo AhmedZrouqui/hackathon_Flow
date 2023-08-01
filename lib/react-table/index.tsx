@@ -1,5 +1,5 @@
 import { createColumnHelper } from '@tanstack/react-table'
-import TableActions from '@/components/TableActions'
+import TableActions from '@/components/Table/TableActions'
 import { PlayerType } from '../validation'
 
 const columnHelper = createColumnHelper<PlayerType>()
@@ -17,7 +17,7 @@ function reformulateSalary(salary: number): string {
     const formatNumber = (num: number, suffix: string): string => {
         const divisor = Math.pow(10, Math.floor(Math.log10(num) / 3) * 3)
         const formatted = (num / divisor).toFixed(2)
-        return formatted + suffix
+        return `${formatted}${suffix}`
     }
 
     const suffix = getSuffix(salary)

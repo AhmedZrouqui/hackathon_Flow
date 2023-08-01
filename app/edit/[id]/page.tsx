@@ -1,6 +1,5 @@
-import { getPlayer } from '@/app/actions'
+import { getPlayer, updatePlayer } from '@/app/actions'
 import React from 'react'
-import { PlayerType } from '@/lib/validation'
 import Form from '@/components/Form'
 import { FormType } from '@/lib/types'
 import GoBack from '@/components/GoBack'
@@ -14,15 +13,16 @@ async function getData(playerId: number) {
 async function Page({ params }: { params: { id: number } }) {
     const playerData = await getData(params.id)
 
-    if (playerData.status === 500) return <div></div>
+    if (playerData.status === 500) return null
 
     return (
         <div>
             <GoBack />
             <Form
                 playerId={params.id}
-                initialData={playerData.data as PlayerType}
+                initialData={playerData?.data}
                 type={FormType.UPDATE}
+                updateAction={updatePlayer}
             />
         </div>
     )

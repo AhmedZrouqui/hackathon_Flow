@@ -6,7 +6,6 @@ import {
     flexRender,
     getCoreRowModel,
     useReactTable,
-    getPaginationRowModel,
 } from '@tanstack/react-table'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -22,12 +21,6 @@ function Table({ data, playersCount, currenPage }: ITable) {
         data,
         columns: cols,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        initialState: {
-            pagination: {
-                pageIndex: 0,
-            },
-        },
     })
 
     const router = useRouter()
@@ -72,18 +65,18 @@ function Table({ data, playersCount, currenPage }: ITable) {
             </table>
             <div className="flex gap-3 mt-10 justify-center">
                 {[...new Array(Math.ceil(playersCount / 10))].map(
-                    (_: any, i: number) => (
-                        <button
+                    (_, i: number) => (
+                        <div
                             key={i}
                             onClick={() => goToPage(i + 1)}
-                            className={`border px-3 py-1 rounded ${
+                            className={`border px-4 py-2 rounded cursor-pointer ${
                                 i + 1 === Number(currenPage)
                                     ? 'bg-blue-400 border-blue-400 text-white'
                                     : ''
                             }`}
                         >
                             {i + 1}
-                        </button>
+                        </div>
                     )
                 )}
             </div>

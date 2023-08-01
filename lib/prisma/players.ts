@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client'
 import prisma from '.'
-import { PlayersReturnType } from '../types'
+import { SinglePlayerReturnType, ManyPlayersReturnType } from '../types'
 import { PlayerType } from '../validation'
 
 /**
@@ -10,8 +10,8 @@ import { PlayerType } from '../validation'
  *
  */
 
-async function getPlayers(page: number): Promise<PlayersReturnType> {
-    const response: PlayersReturnType = {
+async function getPlayers(page: number): Promise<ManyPlayersReturnType> {
+    const response: ManyPlayersReturnType = {
         status: 200,
         data: null,
         errorMessage: '',
@@ -31,8 +31,10 @@ async function getPlayers(page: number): Promise<PlayersReturnType> {
     return response
 }
 
-async function getPlayerByID(playerId: number): Promise<PlayersReturnType> {
-    const response: PlayersReturnType = {
+async function getPlayerByID(
+    playerId: number
+): Promise<SinglePlayerReturnType> {
+    const response: SinglePlayerReturnType = {
         status: 200,
         data: null,
         errorMessage: '',
@@ -53,8 +55,8 @@ async function getPlayerByID(playerId: number): Promise<PlayersReturnType> {
     return response
 }
 
-async function removePlayer(playerId: number): Promise<PlayersReturnType> {
-    const response: PlayersReturnType = {
+async function removePlayer(playerId: number): Promise<SinglePlayerReturnType> {
+    const response: SinglePlayerReturnType = {
         status: 200,
         data: null,
         errorMessage: '',
@@ -78,8 +80,8 @@ async function removePlayer(playerId: number): Promise<PlayersReturnType> {
 async function updatePlayer(
     playerId: number,
     payload: PlayerType
-): Promise<PlayersReturnType> {
-    const response: PlayersReturnType = {
+): Promise<SinglePlayerReturnType> {
+    const response: SinglePlayerReturnType = {
         status: 200,
         data: null,
         errorMessage: '',
@@ -108,8 +110,10 @@ async function updatePlayer(
     return response
 }
 
-async function createPlayer(payload: PlayerType): Promise<PlayersReturnType> {
-    const response: PlayersReturnType = {
+async function createPlayer(
+    payload: PlayerType
+): Promise<SinglePlayerReturnType> {
+    const response: SinglePlayerReturnType = {
         status: 200,
         data: null,
         errorMessage: '',

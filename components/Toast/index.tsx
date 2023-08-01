@@ -14,7 +14,7 @@ function Toast() {
         return () => clearTimeout(timeout)
     }, [ctx, ctx?.toast])
 
-    if (!ctx?.toast.open) return <></>
+    if (!ctx?.toast.open) return null
     return (
         <div
             className={`${
