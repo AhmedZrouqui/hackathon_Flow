@@ -1,9 +1,8 @@
-'use server'
+'use client'
 
-import React from 'react'
-
-function ErrorPage() {
-    return <div>Error occurred, please try again.</div>
-}
+import ErrorComponent from '@/components/Error'
+const ErrorPage = ({ error, reset }: { error: Error; reset: () => void }) => (
+    <ErrorComponent error={error} reset={reset} />
+)
 
 export default ErrorPage
