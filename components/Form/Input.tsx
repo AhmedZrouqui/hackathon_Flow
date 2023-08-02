@@ -2,6 +2,7 @@ import React from 'react'
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form'
 import ErrorMessage from './ErrorMessage'
 import classNames from 'classnames'
+import Label from './Label'
 
 interface IInput {
     error?: FieldError
@@ -14,7 +15,7 @@ function Input({ error, formRegister, placeholder, label }: IInput) {
     const cn = classNames
     return (
         <div className="w-full">
-            {label && <label className="text-sm text-gray-900">{label}</label>}
+            <Label label={label} />
             <input
                 {...formRegister}
                 className={cn(

@@ -4,14 +4,8 @@ import Form from '@/components/Form'
 import { FormType } from '@/lib/types'
 import GoBack from '@/components/GoBack'
 
-async function getData(playerId: number) {
-    const res = await getPlayer(playerId)
-
-    return res
-}
-
 async function Page({ params }: { params: { id: number } }) {
-    const playerData = await getData(params.id)
+    const playerData = await getPlayer(params.id)
 
     if (playerData.status === 500) return null
 
