@@ -11,7 +11,7 @@ function Page() {
             <Form
                 type={FormType.CREATE}
                 initialData={null}
-                createAction={createPlayer}
+                action={createPlayer}
             />
         </div>
     )

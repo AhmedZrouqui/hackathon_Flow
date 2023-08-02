@@ -10,24 +10,23 @@ import Input from './Input'
 import FormGroup from './FormGroup'
 import Button from '../Button'
 
-interface IForm {
-    initialData: PlayerType | null
-    type: FormType
-    playerId?: number
-    updateAction?: (
-        id: number,
-        payload: PlayerType
-    ) => Promise<SinglePlayerReturnType>
-    createAction?: (payload: PlayerType) => Promise<SinglePlayerReturnType>
+type FromAddProps = {
+    type: FormType.CREATE
+    action: (payload: PlayerType) => Promise<SinglePlayerReturnType>
 }
 
-function Form({
-    initialData,
-    type,
-    playerId,
-    updateAction,
-    createAction,
-}: IForm) {
+type FormUpdateProps = {
+    type: FormType.UPDATE
+    action: (id: number, payload: PlayerType) => Promise<SinglePlayerReturnType>
+}
+
+type FormProps = {
+    initialData: PlayerType | null
+
+    playerId?: number
+} & (FromAddProps | FormUpdateProps)
+
+function Form({ initialData, type, playerId, action }: FormProps) {
     const {
         register,
         handleSubmit,
@@ -49,10 +48,10 @@ function Form({
 
             switch (type) {
                 case FormType.UPDATE:
-                    res = await updateAction!(playerId!, data)
+                    res = await action(playerId!, data)
                     break
                 default:
-                    res = await createAction!(data)
+                    res = await action(data)
                     reset()
                     break
             }

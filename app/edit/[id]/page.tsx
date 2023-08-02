@@ -22,7 +22,7 @@ async function Page({ params }: { params: { id: number } }) {
                 playerId={params.id}
                 initialData={playerData?.data}
                 type={FormType.UPDATE}
-                updateAction={updatePlayer}
+                action={updatePlayer}
             />
         </div>
     )
