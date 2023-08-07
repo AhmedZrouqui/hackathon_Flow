@@ -41,19 +41,30 @@ function Form({ initialData, type, playerId, action }: FormProps) {
     const ctx = useAppContext()
     const router = useRouter()
 
+    /**
+     * Accepts data of type `PlayerType`.
+     *
+     * Submits form data depending on form type (UPDATE or CREATE).
+     *
+     * @returns `SinglePlayerReturnType`
+     */
+    const submitAction = async (data: PlayerType) => {
+        let res: SinglePlayerReturnType
+        switch (type) {
+            case FormType.UPDATE:
+                res = await action(playerId!, data)
+                break
+            default:
+                res = await action(data)
+                if (res.status === 200) reset()
+                break
+        }
+        return res
+    }
+
     const submit = async (data: PlayerType) => {
         try {
-            let res: SinglePlayerReturnType
-
-            switch (type) {
-                case FormType.UPDATE:
-                    res = await action(playerId!, data)
-                    break
-                default:
-                    res = await action(data)
-                    if (res.status === 200) reset()
-                    break
-            }
+            const res = await submitAction(data)
 
             ctx?.openToast({
                 open: true,
