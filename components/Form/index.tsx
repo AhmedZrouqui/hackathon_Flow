@@ -7,10 +7,9 @@ import { FormType, SinglePlayerReturnType } from '@/lib/types'
 import { PlayerType, formSchema } from '@/lib/validation'
 import { useAppContext } from '@/context/appContext'
 import Input from './Input'
+import { useRouter } from 'next/navigation'
 import FormGroup from './FormGroup'
 import Button from '../Button'
-import { redirect } from 'next/navigation'
-import { RedirectType } from 'next/dist/client/components/redirect'
 
 type FromAddProps = {
     type: FormType.CREATE
@@ -40,6 +39,7 @@ function Form({ initialData, type, playerId, action }: FormProps) {
     })
 
     const ctx = useAppContext()
+    const router = useRouter()
 
     const submit = async (data: PlayerType) => {
         try {
@@ -64,7 +64,7 @@ function Form({ initialData, type, playerId, action }: FormProps) {
                         : res.errorMessage ?? 'Error.',
             })
 
-            if (res.status === 200) return redirect('/', RedirectType.push)
+            if (res.status === 200) router.push('/')
         } catch (err) {
             console.log(err)
         }
