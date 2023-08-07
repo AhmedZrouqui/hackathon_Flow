@@ -9,9 +9,10 @@ interface IInput {
     formRegister: UseFormRegisterReturn
     placeholder: string
     label?: string
+    isNumber?: boolean
 }
 
-function Input({ error, formRegister, placeholder, label }: IInput) {
+function Input({ error, formRegister, placeholder, label, isNumber }: IInput) {
     const cn = classNames
     return (
         <div className="w-full">
@@ -24,6 +25,7 @@ function Input({ error, formRegister, placeholder, label }: IInput) {
                         '!border-red-800': error,
                     }
                 )}
+                type={isNumber ? 'number' : 'text'}
                 placeholder={placeholder}
             />
             <ErrorMessage message={error?.message} />

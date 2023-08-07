@@ -93,6 +93,7 @@ function Form({ initialData, type, playerId, action }: FormProps) {
                 <FormGroup>
                     <Input
                         label="Salaire annuel"
+                        isNumber
                         placeholder="Entrez salaire..."
                         formRegister={register('salary', {
                             required: true,
@@ -112,6 +113,7 @@ function Form({ initialData, type, playerId, action }: FormProps) {
                 <FormGroup>
                     <Input
                         label="Nombre de but"
+                        isNumber
                         placeholder="Entrez nombre de but..."
                         formRegister={register('goal', {
                             required: true,

@@ -8,6 +8,7 @@ export const formSchema = z.object({
             invalid_type_error:
                 'Le prénom doit être de type texte (exemple: Lionel).',
         })
+        .trim()
         .min(2, { message: 'Le prénom doit comporter au moins 2 caractères.' }),
     lastname: z
         .string({
@@ -15,6 +16,7 @@ export const formSchema = z.object({
             invalid_type_error:
                 'Le nom de famille doit être de type texte (exemple: Messi).',
         })
+        .trim()
         .min(2, {
             message: 'le nom de famille doit comporter au moins 2 caractères.',
         }),
@@ -28,6 +30,7 @@ export const formSchema = z.object({
         }),
     devise: z
         .string({ required_error: 'La devise est requise.' })
+        .trim()
         .min(1, 'La devise doit comporter au moins 1 caractères.')
         .max(3, 'La devise ne peut pas comporter plus de 3 caractères.'),
     goal: z
