@@ -26,7 +26,7 @@ export default async function Page({
     return (
         <main className="w-full min-h-screen">
             <Table
-                currenPage={page}
+                currentPage={page}
                 data={data.data}
                 playersCount={playersCount}
             />

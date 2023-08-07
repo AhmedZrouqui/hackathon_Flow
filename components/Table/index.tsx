@@ -14,10 +14,10 @@ import classNames from 'classnames'
 interface ITable {
     data: PlayerType[]
     playersCount: number
-    currenPage: number
+    currentPage: number
 }
 
-function Table({ data, playersCount, currenPage }: ITable) {
+function Table({ data, playersCount, currentPage }: ITable) {
     const table = useReactTable({
         data,
         columns: cols,
@@ -68,7 +68,7 @@ function Table({ data, playersCount, currenPage }: ITable) {
                                 'border px-4 py-2 rounded cursor-pointer',
                                 {
                                     'bg-blue-400 border-blue-400 text-white':
-                                        i + 1 === Number(currenPage),
+                                        i + 1 === Number(currentPage),
                                 }
                             )}
                         >
