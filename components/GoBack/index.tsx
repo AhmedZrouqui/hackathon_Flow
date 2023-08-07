@@ -1,17 +1,14 @@
-'use client'
-
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import React from 'react'
 
 function GoBack() {
-    const router = useRouter()
     return (
-        <div
-            onClick={() => router.push('/')}
+        <Link
+            href="/"
             className="mb-10 underline cursor-pointer text-lg font-medium"
         >
             {'<'} Revenir
-        </div>
+        </Link>
     )
 }
 
