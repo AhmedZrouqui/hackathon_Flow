@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormType, SinglePlayerReturnType } from '@/lib/types'
@@ -9,6 +9,8 @@ import { useAppContext } from '@/context/appContext'
 import Input from './Input'
 import FormGroup from './FormGroup'
 import Button from '../Button'
+import { redirect } from 'next/navigation'
+import { RedirectType } from 'next/dist/client/components/redirect'
 
 type FromAddProps = {
     type: FormType.CREATE
@@ -30,20 +32,17 @@ function Form({ initialData, type, playerId, action }: FormProps) {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitting },
         reset,
     } = useForm({
         resolver: zodResolver(formSchema),
         ...(initialData && { defaultValues: initialData }),
     })
 
-    const [loading, setLoading] = useState<boolean>(false)
-
     const ctx = useAppContext()
 
     const submit = async (data: PlayerType) => {
         try {
-            setLoading(true)
             let res: SinglePlayerReturnType
 
             switch (type) {
@@ -52,7 +51,7 @@ function Form({ initialData, type, playerId, action }: FormProps) {
                     break
                 default:
                     res = await action(data)
-                    reset()
+                    if (res.status === 200) reset()
                     break
             }
 
@@ -64,10 +63,10 @@ function Form({ initialData, type, playerId, action }: FormProps) {
                         ? 'Success!'
                         : res.errorMessage ?? 'Error.',
             })
+
+            if (res.status === 200) return redirect('/', RedirectType.push)
         } catch (err) {
             console.log(err)
-        } finally {
-            setLoading(false)
         }
     }
 
@@ -133,7 +132,7 @@ function Form({ initialData, type, playerId, action }: FormProps) {
                     />
                 </FormGroup>
                 <div className="flex justify-end">
-                    <Button type="submit" loading={loading}>
+                    <Button type="submit" loading={isSubmitting}>
                         Enregistrer
                     </Button>
                 </div>

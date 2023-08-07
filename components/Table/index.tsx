@@ -7,7 +7,7 @@ import {
     getCoreRowModel,
     useReactTable,
 } from '@tanstack/react-table'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import React from 'react'
 import classNames from 'classnames'
 
@@ -23,12 +23,6 @@ function Table({ data, playersCount, currenPage }: ITable) {
         columns: cols,
         getCoreRowModel: getCoreRowModel(),
     })
-
-    const router = useRouter()
-
-    const goToPage = (page: number) => {
-        router.push('/?page=' + page)
-    }
 
     return (
         <div className="w-full">
@@ -67,9 +61,9 @@ function Table({ data, playersCount, currenPage }: ITable) {
             <div className="flex gap-3 mt-10 justify-center">
                 {[...new Array(Math.ceil(playersCount / 10))].map(
                     (_, i: number) => (
-                        <div
+                        <Link
                             key={i}
-                            onClick={() => goToPage(i + 1)}
+                            href={`/?page=${i + 1}`}
                             className={classNames(
                                 'border px-4 py-2 rounded cursor-pointer',
                                 {
@@ -79,7 +73,7 @@ function Table({ data, playersCount, currenPage }: ITable) {
                             )}
                         >
                             {i + 1}
-                        </div>
+                        </Link>
                     )
                 )}
             </div>
