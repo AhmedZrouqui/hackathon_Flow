@@ -32,10 +32,11 @@ export const formSchema = z
             .nonnegative({
                 message: 'Salaire doit être positif (supérieur ou égal à 0).',
             }),
-        devise: z.enum(['$', 'MAD', '€'], {
-            invalid_type_error: 'Devise doit être $, MAD, ou €.',
-            required_error: 'Devise doit être $, MAD, ou €.',
-        }),
+        devise: z
+            .string({ required_error: 'La devise est requise.' })
+            .trim()
+            .min(1, 'La devise doit comporter au moins 1 caractères.')
+            .max(3, 'La devise ne peut pas comporter plus de 3 caractères.'),
         goal: z
             .number({ invalid_type_error: 'But doit être un nombre' })
             .nonnegative({
