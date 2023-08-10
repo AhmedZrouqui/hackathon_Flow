@@ -4,6 +4,7 @@ import { playerCRUD } from '@/lib/prisma/players'
 import { SinglePlayerReturnType, ManyPlayersReturnType } from '@/lib/types'
 import { PlayerType } from '@/lib/validation'
 import { revalidateTag } from 'next/cache'
+import { redirect } from 'next/navigation'
 
 export async function getPlayer(id: number): Promise<SinglePlayerReturnType> {
     const res = await playerCRUD.getPlayerByID(parseInt(id.toString()))
@@ -18,6 +19,7 @@ export async function updatePlayer(
     const res = await playerCRUD.updatePlayer(parseInt(id.toString()), payload)
 
     revalidateTag('players')
+    if (res.status === 200) redirect('/')
     return res
 }
 
@@ -42,7 +44,7 @@ export async function createPlayer(
     const res = await playerCRUD.createPlayer(payload)
 
     revalidateTag('players')
-
+    if (res.status === 200) redirect('/')
     return res
 }
 
