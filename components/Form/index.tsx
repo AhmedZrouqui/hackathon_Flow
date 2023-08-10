@@ -7,6 +7,7 @@ import { FormType, SinglePlayerReturnType } from '@/lib/types'
 import { PlayerType, formSchema } from '@/lib/validation'
 import { useAppContext } from '@/context/appContext'
 import Input from './Input'
+import { useRouter } from 'next/navigation'
 import FormGroup from './FormGroup'
 import Button from '../Button'
 
@@ -38,6 +39,8 @@ function Form({ initialData, type, playerId, action }: FormProps) {
     })
 
     const ctx = useAppContext()
+    const router = useRouter()
+
     /**
      * Accepts data of type `PlayerType`.
      *
@@ -71,6 +74,8 @@ function Form({ initialData, type, playerId, action }: FormProps) {
                         ? 'Success!'
                         : res.errorMessage ?? 'Error.',
             })
+
+            if (res.status === 200) router.push('/')
         } catch (err) {
             console.log(err)
         }
